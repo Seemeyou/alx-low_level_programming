@@ -1,0 +1,2 @@
+ #!/bin/bash
+gcc -S -masm=intel $CFILE        ."-masm=intel" is an option that can be passed to the GNU Compiler Collection (GCC). This option tells the compiler to use Intel syntax for assembly language output instead of the default AT&T syntax.
