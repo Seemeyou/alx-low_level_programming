@@ -1,87 +1,38 @@
 #include "lists.h"
 
-size_t looped_listint_len(const listint_t *head);
-size_t print_listint_safe(const listint_t *head);
-
 /**
- * looped_listint_len - Counts the number of unique nodes
- * in a looped listint_t linked list.
- * @head: A pointer to the head of the listint_t to check.
- *
- * Return: If the list is not looped - 0.
- * Otherwise - the number of unique nodes in the list.
- */
-size_t looped_listint_len(const listint_t *head)
-{
-	const listint_t *num, *dig;
-	size_t nodes = 1;
-
-	if (head == NULL || head->next == NULL)
-		return (0);
-
-	num = head->next;
-	dig = (head->next)->next;
-
-	while (dig)
-	{
-		if (num == dig)
-		{
-			num = head;
-			while (num != dig)
-			{
-				nodes++;
-				num = num->next;
-				dig = dig->next;
-			}
-
-			num = num->next;
-			while (num != dig)
-			{
-				nodes++;
-				num = num->next;
-			}
-
-			return (nodes);
-		}
-
-		num = num->next;
-		dig = (dig->next)->next;
-	}
-
-	return (0);
-}
-
-/**
- * print_listint_safe - Prints a listint_t list safely.
- * @head: A pointer to the head of the listint_t list.
+ * print_listint_safe - Prints a listint_t linked list.
+ * @head: Pointer to the head of the list.
  *
  * Return: The number of nodes in the list.
  */
 size_t print_listint_safe(const listint_t *head)
 {
-	size_t nodes, index = 0;
+	const listint_t *current;
+	size_t count = 0;
+	int loop_detected = 0;
 
-	nodes = looped_listint_len(head);
+	if (head == NULL)
+		exit(98);
 
-	if (nodes == 0)
+	while (head != NULL)
 	{
-		for (; head != NULL; nodes++)
-		{
-			printf("[%p] %d\n", (void *)head, head->n);
-			head = head->next;
-		}
-	}
+		printf("[%p] %d\n", (void *)head, head->n);
+		count++;
+		current = head->next;
 
-	else
-	{
-		for (index = 0; index < nodes; index++)
+		if (current == head)
 		{
-			printf("[%p] %d\n", (void *)head, head->n);
-			head = head->next;
+			loop_detected = 1;
+			break;
 		}
 
-		printf("-> [%p] %d\n", (void *)head, head->n);
+		head = current;
 	}
 
-	return (nodes);
+	if (loop_detected)
+		printf("Loop starts at [%p]\n", (void *)head);
+
+	return (count);
 }
+
