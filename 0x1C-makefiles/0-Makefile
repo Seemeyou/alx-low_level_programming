@@ -1,2 +1,12 @@
-all: main.c school.c
-	gcc main.c school.c -o school
+# Makefile for building the 'school' executable
+
+# Rule: all
+all: school
+
+# Target: school (executable)
+school: main.c
+    gcc -o school main.c
+
+# Clean rule to remove the executable
+clean:
+    rm -f school
